@@ -20,6 +20,11 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
         mp_drawing.DrawingSpec(color=(100,255,100),thickness=4,circle_radius=6),
         mp_drawing.DrawingSpec(color=(100,100,255),thickness=3,circle_radius=5))
         cv2.imshow("Detecção de POSE", imagemBGR) #abre um popout com a imagem enviada,e o titulo escolhido
+        if cv2.waitKey(10)&0xFF == ord('s'):
+            x = results.pose_world_landmarks.landmark[0].x
+            y = results.pose_world_landmarks.landmark[0].y
+            z = results.pose_world_landmarks.landmark[0].z
+            print("Coordenadas do nariz: (",x,",",y,",",z,")")
         if cv2.waitKey(10)&0xFF == 27:  #fecha Com ESC
             break
 cap.release()     #fecha a imagem da camera
