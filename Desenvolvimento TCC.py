@@ -29,3 +29,5 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
             break
 cap.release()     #fecha a imagem da camera
 cv2.destroyAllWindows()     #fecha a janela de display
+#reconectado
+#2
