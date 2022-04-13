@@ -38,11 +38,10 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
             qdy = results.pose_world_landmarks.landmark[24].y
             Dados = {'qex':qex,'qey':qey,'qdx':qdx,'qdy':qdy,'jex':jex,'jey':jey,'jdx':jdx,'jdy':jdy}
             print ('dicionario de postura:',Dados)
+            #com esse dicionario de posições da postura, precisaria apenas fazer a geometria analítica para calcular os angulos
 
 
         if cv2.waitKey(10)&0xFF == 27:  #fecha Com ESC
             break
 cap.release()     #fecha a imagem da camera
 cv2.destroyAllWindows()     #fecha a janela de display
-#reconectado
-#2 ola
