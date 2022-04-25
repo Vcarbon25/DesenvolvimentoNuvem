@@ -1,6 +1,6 @@
 import cv2
 
-cap = cv2.VideoCapture(0) #argumento é o indice da camera utilizada
+'''cap = cv2.VideoCapture(0) #argumento é o indice da camera utilizada
 while cap.isOpened(): #Fica em Loop enquanto a janela aberta
     sucess, img = cap.read()
 
@@ -9,3 +9,34 @@ while cap.isOpened(): #Fica em Loop enquanto a janela aberta
             break
 cap.release()     #fecha a imagem da camera
 cv2.destroyAllWindows()     #fecha a janela de display
+'''#mostrar uma janela apenas com a imagem da câmera
+#mostrar câmera em janela do tkinter
+import tkinter as TK
+from PIL import Image, ImageTk
+import cv2
+
+# Create an instance of TKinter Window or frame
+win = TK.Tk()
+
+# Set the size of the window
+win.geometry("700x350")
+
+# Create a Label to capture the Video frames
+label =TK.Label(win)
+label.grid(row=0, column=0)
+cap= cv2.VideoCapture(0)
+
+# Define function to show frame
+def show_frames():
+   # Get the latest frame and convert into Image
+   cv2image= cv2.cvtColor(cap.read()[1],cv2.COLOR_BGR2RGB)
+   img = Image.fromarray(cv2image)
+   # Convert image to PhotoImage
+   imgtk = ImageTk.PhotoImage(image = img)
+   label.imgtk = imgtk
+   label.configure(image=imgtk)
+   # Repeat after an interval to capture continiously
+   label.after(20, show_frames)
+
+show_frames()
+win.mainloop()
