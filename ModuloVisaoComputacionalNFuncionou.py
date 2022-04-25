@@ -26,7 +26,7 @@ cap = cv2.VideoCapture(0)
 Teste = ModelosCorporais()
 while True:
     frame, sucess = cap.read()
-    frame = Teste.ModeloMaos(frame)
+    frame = Teste.ModeloMaos(frame)#ele acusa que estou passand 2 argumentos, mas aqui só tem 1
     cv2.imshow(frame)
     if cv2.waitKey(10)&0xFF ==27:
         break
