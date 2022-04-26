@@ -19,7 +19,7 @@ import cv2
 win = TK.Tk()
 
 # Set the size of the window
-win.geometry("700x350")
+win.geometry("700x500")
 
 # Create a Label to capture the Video frames
 label =TK.Label(win)
