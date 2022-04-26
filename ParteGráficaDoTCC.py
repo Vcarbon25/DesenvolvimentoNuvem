@@ -1,7 +1,9 @@
 #protótipo de tela com exibição da câmera simples
+from logging import root
 import tkinter as TK
 import cv2
 from PIL import Image, ImageTk
+import threading
 
 def EncontrarCameras():
     ListaCameras =[]
@@ -19,12 +21,12 @@ def EncontrarCameras():
 global HabilitarCamera
 HabilitarCamera=0
 def ShowCamera():
-    IndiceCamera = int(cameraselect)
-    if HabilitarCamera == 1:
-        pass
+    IndiceCamera = str(int(cameraselect))
+    print (IndiceCamera)
+    stop_camera()
         
 
-
+    
 raiz = TK.Tk()
 raiz.geometry("600x600")
 #preparar o menu de cima
@@ -38,6 +40,7 @@ Bsaida.grid(row=0,column=1)
 Binfo = TK.Button(top, text='  Sobre  ')
 Binfo.grid(row=0,column=2)
 #SeriaCamera = ImageTk.PhotoImage(Image.open('EsquemaLandmarksHolistico'))
+global ECamera
 ECamera = TK.Label(raiz,text='Camera vai aqui', borderwidth=3)
 ECamera.grid(row=1,column=1,columnspan=2,rowspan=3)
 EQEsq=TK.Label(raiz, text="Angulo Q esquerdo")
@@ -50,6 +53,7 @@ ListaCameras = EncontrarCameras()
 
 CameraSelect=TK.OptionMenu(raiz, cameraselect, *ListaCameras)
 CameraSelect.grid(row=1,column=3)
-BStart = TK.Button(raiz,text='Iniciar Exame')
+BStart = TK.Button(raiz,text='Iniciar Exame')#,command=inic_camera())
 BStart.grid(row=2,column=3)
+Bstop = TK.Button(raiz,text='Interromper Exame')#,command=stop_camera())
 raiz.mainloop()
