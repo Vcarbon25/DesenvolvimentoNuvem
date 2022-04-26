@@ -1,5 +1,5 @@
 import cv2
-
+#usos básicos de câmera com e sem janela própria
 '''cap = cv2.VideoCapture(0) #argumento é o indice da camera utilizada
 while cap.isOpened(): #Fica em Loop enquanto a janela aberta
     sucess, img = cap.read()
