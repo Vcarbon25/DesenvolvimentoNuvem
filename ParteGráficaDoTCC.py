@@ -19,12 +19,21 @@ def EncontrarCameras():
     return ListaCameras
 
 global HabilitarCamera
-HabilitarCamera=0
+HabilitarCamera=1
+
 def ShowCamera():
-    IndiceCamera = str(int(cameraselect))
-    print (IndiceCamera)
-    stop_camera()
+   cap = cv2.VideoCapture(0)
+   HabilitarCamera=1
+   cv2image= cv2.cvtColor(cap.read()[1],cv2.COLOR_BGR2RGB)
+   img = Image.fromarray(cv2image)
+   # Convert image to PhotoImage
+   imgtk = ImageTk.PhotoImage(image = img)
+   ECamera.imgtk = imgtk
+   ECamera.configure(image=imgtk)
+   cap.release()
         
+     
+   
 
     
 raiz = TK.Tk()
@@ -53,7 +62,7 @@ ListaCameras = EncontrarCameras()
 
 CameraSelect=TK.OptionMenu(raiz, cameraselect, *ListaCameras)
 CameraSelect.grid(row=1,column=3)
-BStart = TK.Button(raiz,text='Iniciar Exame')#,command=inic_camera())
+BStart = TK.Button(raiz,text='Iniciar Exame',command=ShowCamera())#,command=inic_camera())
 BStart.grid(row=2,column=3)
 Bstop = TK.Button(raiz,text='Interromper Exame')#,command=stop_camera())
 raiz.mainloop()
