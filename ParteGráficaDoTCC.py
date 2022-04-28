@@ -66,5 +66,5 @@ BStart.grid(row=2,column=3)
 Bstop = TK.Button(raiz,text='Interromper Exame')#,command=stop_camera())
 
     
-
+ShowCamera()
 raiz.mainloop()
