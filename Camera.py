@@ -24,8 +24,11 @@ win.geometry("700x500")
 # Create a Label to capture the Video frames
 label =TK.Label(win)
 label.grid(row=0, column=0)
+botao = TK.Button(win,text='but1')
+botao2=TK.Button(win,text='But2')
+botao.grid(row=0,column=1)
+botao2.grid(row=1,column=0)
 cap= cv2.VideoCapture(0)
-
 # Define function to show frame
 def show_frames():
    # Get the latest frame and convert into Image
@@ -40,3 +43,4 @@ def show_frames():
 
 show_frames()
 win.mainloop()
+#essa acima é umajanela simples mostrando apenas um label com a imagem

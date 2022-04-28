@@ -26,7 +26,7 @@ def ShowCamera():
    HabilitarCamera=1
    cv2image= cv2.cvtColor(cap.read()[1],cv2.COLOR_BGR2RGB)
    img = Image.fromarray(cv2image)
-   # Convert image to PhotoImage
+    # Convert image to PhotoImage
    imgtk = ImageTk.PhotoImage(image = img)
    ECamera.imgtk = imgtk
    ECamera.configure(image=imgtk)
@@ -37,7 +37,7 @@ def ShowCamera():
 
     
 raiz = TK.Tk()
-raiz.geometry("600x600")
+raiz.geometry("900x600")
 #preparar o menu de cima
 top = raiz.winfo_toplevel()
 raiz.BarraMenu = TK.Menu(top)
