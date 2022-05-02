@@ -1,4 +1,4 @@
-from logging import root
+#from logging import root
 import tkinter as TK
 from PIL import Image, ImageTk
 import cv2
