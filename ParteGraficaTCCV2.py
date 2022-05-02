@@ -3,12 +3,11 @@ from PIL import Image, ImageTk
 import cv2
 import time
 
-from cv2 import FONT_HERSHEY_COMPLEX
 raiz = TK.Tk()
 #configura menu superior
 top=raiz.winfo_toplevel()
 raiz.BarraMenu = TK.Menu(top)
-raiz.title('Se transforma no prog final')
+raiz.title('Se transforma no prog final Versão 2')
 top['menu']=raiz.BarraMenu
 #Criar funções auxiliares
 def EncontrarCameras():

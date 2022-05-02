@@ -3,13 +3,15 @@ import tkinter as TK
 from PIL import Image, ImageTk
 import cv2
 import time
-
+#não funcionou, provavelmentw porque ao tentar iniciar a camera, os widgets já
+#estão posicionados, e ele não reorganiza para mostrar a imagem, tentar depois travando as 
+#posições em pixels ou com PySimpleGui
 from cv2 import FONT_HERSHEY_COMPLEX
 raiz = TK.Tk()
 #configura menu superior
 top=raiz.winfo_toplevel()
 raiz.BarraMenu = TK.Menu(top)
-raiz.title('Se transforma no prog final')
+raiz.title('Se transforma no prog final versão 3')
 top['menu']=raiz.BarraMenu
 #Criar funções auxiliares
 def EncontrarCameras():
@@ -36,11 +38,25 @@ def Cadastrar_Paciente(): #Por enquanto só está mostrando mas sem fazer nada c
     InId = TK.Entry(JanelaCadastro,width=50)
     EId.grid(row=1,column=0)
     InId.grid(row=1,column=1)
+def Selecionar_cameras(CameraEscolhida):
+    CameraEscolhida=TK.IntVar()
+    CameraEscolhida=cameraselect.get()
+global HabilitarImagem
+HabilitarImagem=0
+def IniciarVisao():
+    HabilitarImagem=1
+    Select_Exam_func()
+
+def PararVisao():
+    HabilitarImagem=0
+    ECamera.configure(bg='gray')
+
 # Create window to capture the Video frames
-ECamera =TK.Label(raiz)
+ECamera =TK.Label(raiz,text='Camera Vai Aqui')
 ECamera.grid(row=1, column=0,rowspan=3)
-cameraselect=TK.StringVar(raiz)
-cameraselect.set("Seleção da câmera")
+global cameraselect
+cameraselect=TK.IntVar(raiz)
+cameraselect.set(0)
 ListaCameras=EncontrarCameras()
 opcao=[0,1,2,3,4]
 CameraSelect = TK.OptionMenu(raiz,cameraselect, *ListaCameras)
@@ -50,8 +66,10 @@ Select_exam=TK.StringVar(raiz)
 Select_exam.set('Escolher exame realizado')
 ExamSelect=TK.OptionMenu(raiz,Select_exam,*ListaExames)
 ExamSelect.grid(row=2,column=1)
-BStart = TK.Button(raiz,text='Iniciar Exame')
+BStart = TK.Button(raiz,text='Iniciar Exame',command=IniciarVisao)
 BStart.grid(row=3,column=1)
+BStop=TK.Button(raiz,text='Parar Exame',command=PararVisao)
+BStop.grid(row=4,column=1)
 cap= cv2.VideoCapture(0)
 # Create an instance of TKinter Window or frame
 
@@ -66,23 +84,31 @@ ctime=0
 global ptime
 ptime =0
 # Define function to show frame
-def camera_simples():  
+def Select_Exam_func():
+    selecao = Select_exam.get()
+    if selecao == 'camera simples':
+        indice_camera = CameraSelect.get()
+        cap = cv2.VideoCapture(int(indice_camera))
+        sucess, cvimagemsimples = cap.read()
+        show_image(cvimagemsimples)
+def show_image(cvimage):  
    # Get the latest frame and convert into Image
-   cv2image= cv2.cvtColor(cap.read()[1],cv2.COLOR_BGR2RGB)
-   ctime = time.time()
-   global ptime
-   fps=1/(ctime-ptime)
-   nfps = int(fps)
-   txtfps=str(nfps)
-   cv2.putText(cv2image, txtfps,(10,50),cv2.FONT_HERSHEY_SCRIPT_COMPLEX,2,(20,80,255))
-   ptime=ctime #ele conseguiu fazer a contagem de fps aqui no tkinter tbm
-   img = Image.fromarray(cv2image)
-   # Convert image to PhotoImage
-   imgtk = ImageTk.PhotoImage(image = img)
-   ECamera.imgtk = imgtk
-   ECamera.configure(image=imgtk)
-   # Repeat after an interval to capture continiously
-   ECamera.after(20, camera_simples)
+   if HabilitarImagem==1:
+        cv2image= cv2.cvtColor(cvimage,cv2.COLOR_BGR2RGB)
+        ctime = time.time()
+        global ptime
+        fps=1/(ctime-ptime)
+        nfps = int(fps)
+        txtfps=str(nfps)
+        cv2.putText(cv2image, txtfps,(10,50),cv2.FONT_HERSHEY_SCRIPT_COMPLEX,2,(20,80,255))
+        ptime=ctime #ele conseguiu fazer a contagem de fps aqui no tkinter tbm
+        img = Image.fromarray(cv2image)
+        # Convert image to PhotoImage
+        imgtk = ImageTk.PhotoImage(image = img)
+        ECamera.imgtk = imgtk
+        ECamera.configure(image=imgtk)
+        # Repeat after an interval to capture continiously
+        ECamera.after(20, Select_Exam_func)
 
-camera_simples()
+Select_Exam_func()
 raiz.mainloop()
