@@ -2,19 +2,33 @@ import tkinter as TK
 import cv2
 from PIL import Image, ImageTk
 import mediapipe as mp
-
+import time
 raiz = TK.Tk()
 
 # Set the size of the window
 raiz.geometry("1040x500")
 raiz.title('Parte Grafica TCC V4')
 cap= cv2.VideoCapture(0)
+
 def CameraSimples():
     sucess, img = cap.read()
     img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
     show_frames(img)
+
+#habilitar exibição de fps
+ptime =0
+ctime=0
 def show_frames(cv2image):
-   # Get the latest frame and convert into Image
+   #colocar a contagem de fps na imagem do opencv
+   global ctime
+   ctime=time.time()
+   global ptime
+   fps=1/(ctime-ptime)
+   ptime = ctime
+   nfps=int(fps) #converte o n real para n inteiro
+   txtfps=str(nfps)
+   cv2.putText(cv2image,txtfps,(10,50),cv2.FONT_HERSHEY_COMPLEX,2,(255,255,50),3)
+   # converter imagem para ser usada no tkinter
    img = Image.fromarray(cv2image)
    # Convert image to PhotoImage
    imgtk = ImageTk.PhotoImage(image = img)
@@ -39,6 +53,8 @@ LCamera =TK.Label(raiz)
 LCamera.grid(row=0, column=0,rowspan=6)
 botao = TK.Button(raiz,text='but1',padx=30)
 botao.grid(row=0,column=1)
+
+
 def Modelo_Corpo():
     mp_drawing = mp.solutions.drawing_utils
     mp_holistic = mp.solutions.holistic
