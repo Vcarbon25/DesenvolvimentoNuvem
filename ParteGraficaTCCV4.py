@@ -52,5 +52,5 @@ def Modelo_Corpo():
         mp_drawing.DrawingSpec(color=(100,100,255),thickness=3,circle_radius=5))
         show_frames(imagemBGR)
 
-CameraSimples()
+Modelo_Corpo()
 raiz.mainloop()
