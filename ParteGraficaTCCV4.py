@@ -1,6 +1,7 @@
 import tkinter as TK
 import cv2
 from PIL import Image, ImageTk
+from matplotlib.pyplot import text
 import mediapipe as mp
 import time
 raiz = TK.Tk()
@@ -35,7 +36,7 @@ def show_frames(cv2image):
    LCamera.imgtk = imgtk
    LCamera.configure(image=imgtk)
    # Repeat after an interval to capture continiously
-   LCamera.after(20, Modelo_Corpo)
+   LCamera.after(10, Modelo_Corpo)
 
 def Encontrar_Cameras():
     ListaCameras=[]
@@ -59,10 +60,11 @@ def Modelo_Corpo():
         sucess, frame=cap.read()
         imagemRGB=cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
         results = holistic.process(imagemRGB)
-        imagemBGR = cv2.cvtColor(imagemRGB,cv2.COLOR_RGB2BGR)
+        imagemBGR = cv2.cvtColor(imagemRGB,cv2.COLOR_RGB2BGR)#por causa dessa linha a pessoa aparece azul na tela
         mp_drawing.draw_landmarks(imagemBGR,results.pose_landmarks,mp_holistic.POSE_CONNECTIONS,
         mp_drawing.DrawingSpec(color=(100,255,100),thickness=4,circle_radius=6),
         mp_drawing.DrawingSpec(color=(100,100,255),thickness=3,circle_radius=5))
+        #LPonto1.configure(text='iniciou') 3para colocar os pontos em tela será necessário essa linha repetida para cada ponto
         show_frames(imagemBGR)
 
 #COnfigura a Parte gráfica da janela
