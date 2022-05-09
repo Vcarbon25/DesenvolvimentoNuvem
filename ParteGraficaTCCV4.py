@@ -5,11 +5,11 @@ import mediapipe as mp
 import time
 raiz = TK.Tk()
 
-# Set the size of the window
+# Configurações Básicas da Janela
 raiz.geometry("1040x500")
 raiz.title('Parte Grafica TCC V4')
 cap= cv2.VideoCapture(0)
-
+#definição de funções auxiliares
 def CameraSimples():
     sucess, img = cap.read()
     img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
@@ -49,10 +49,7 @@ def Encontrar_Cameras():
         cap.release()
         index+=1
     return ListaCameras
-LCamera =TK.Label(raiz)
-LCamera.grid(row=0, column=0,rowspan=6)
-botao = TK.Button(raiz,text='but1',padx=30)
-botao.grid(row=0,column=1)
+
 
 
 def Modelo_Corpo():
@@ -67,6 +64,13 @@ def Modelo_Corpo():
         mp_drawing.DrawingSpec(color=(100,255,100),thickness=4,circle_radius=6),
         mp_drawing.DrawingSpec(color=(100,100,255),thickness=3,circle_radius=5))
         show_frames(imagemBGR)
+
+#COnfigura a Parte gráfica da janela
+
+LCamera =TK.Label(raiz)
+LCamera.grid(row=0, column=0,rowspan=6)
+botao = TK.Button(raiz,text='but1',padx=30)
+botao.grid(row=0,column=1)
 
 Modelo_Corpo()
 raiz.mainloop()
