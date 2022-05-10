@@ -1,6 +1,6 @@
 import cv2
 
-class Cameras_TCC:
+class CamerasTCC:
     global HabilitarCameras
     HabilitarCameras=False
     def __init__(self):

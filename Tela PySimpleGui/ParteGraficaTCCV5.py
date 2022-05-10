@@ -15,7 +15,7 @@ coluna_do_meio = [[],[sg.Text('Camera: '),sg.OptionMenu(cameras,default_value='c
 [sg.Button('Iniciar Exame'),sg.Button('Interromper')]]
 
 layout =[coluna_esquerda,coluna_do_meio]
-principal = sg.Window('V3.5 do TCC',layout).finalize()
+principal = sg.Window('V5 do TCC',layout).finalize()
 
 while True:
     eventos, valores = principal.read()
