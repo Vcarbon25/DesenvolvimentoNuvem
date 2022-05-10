@@ -20,4 +20,4 @@ principal = sg.Window('V3.5 do TCC',layout)
 while True:
     eventos, valores = principal.read()
     if eventos == sg.WINDOW_CLOSED:
-       # break
+       break
