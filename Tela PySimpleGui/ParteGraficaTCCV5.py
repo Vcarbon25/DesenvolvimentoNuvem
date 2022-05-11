@@ -1,6 +1,6 @@
 from PySimpleGUI import PySimpleGUI as sg
 import cv2
-from pyparsing import And
+import time
 
 sg.theme('SandyBeach')
 
@@ -22,8 +22,16 @@ def CameraSimples():
     cap = cv2.VideoCapture(CamIndex)
     sucess, img = cap.read()
     ColocaNaTela(img)
-    
+
+ptime=0
+ctime=0
 def ColocaNaTela(cv2img):
+    ctime=time.time()
+    fps=1/(ctime-ptime)
+    nfps=int(fps)
+    txtfps=str(nfps)
+    cv2.putText(cv2img,txtfps,(10,50),cv2.FONT_HERSHEY_COMPLEX,2,(255,50,100),3)
+    ptime=ctime
     ImgTamanho = cv2.resize(cv2img, Tamanho_Imagem) #faz a imagem do tamanho do configurado pela tupla
     ImgTela = cv2.imencode(".png",ImgTamanho)[1].tobytes()
     principal["camera"].update(data=ImgTela)
@@ -55,6 +63,8 @@ while True:
         CamIndex= valores['cam']
         HabilitarCamera = True
         cap = cv2.VideoCapture(CamIndex)
+    if eventos == 'Interromper':
+        HabilitarCamera=False
     if HabilitarCamera==True:
         escolha = valores['ImgSel']
         if escolha == 'Camera Simples':
