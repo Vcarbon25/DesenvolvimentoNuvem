@@ -1,5 +1,6 @@
 from PySimpleGUI import PySimpleGUI as sg
 import cv2
+from pyparsing import And
 
 sg.theme('SandyBeach')
 
@@ -19,12 +20,13 @@ def Listar_cameras():
 def CameraSimples():
     global CamIndex
     cap = cv2.VideoCapture(CamIndex)
-    global HabilitarCamera
-    while HabilitarCamera:
-        sucess, img = cap.read()
-        ImgTamanho = cv2.resize(img, Tamanho_Imagem) #faz a imagem do tamanho do configurado pela tupla
-        ImgTela = cv2.imencode(".png",ImgTamanho)[1].tobytes()
-        principal["camera"].update(data=ImgTela)
+    sucess, img = cap.read()
+    ColocaNaTela(img)
+    
+def ColocaNaTela(cv2img):
+    ImgTamanho = cv2.resize(cv2img, Tamanho_Imagem) #faz a imagem do tamanho do configurado pela tupla
+    ImgTela = cv2.imencode(".png",ImgTamanho)[1].tobytes()
+    principal["camera"].update(data=ImgTela)
     cap.release()
 
 
@@ -53,4 +55,7 @@ while True:
         CamIndex= valores['cam']
         HabilitarCamera = True
         cap = cv2.VideoCapture(CamIndex)
-        
+    if HabilitarCamera==True:
+        escolha = valores['ImgSel']
+        if escolha == 'Camera Simples':
+            CameraSimples()
