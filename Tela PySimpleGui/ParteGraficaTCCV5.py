@@ -10,6 +10,7 @@ def Listar_cameras():
     while True:
         cap = cv2.VideoCapture(index)
         if not cap.read()[0]:
+            cap.release()
             break
         else:
             lista.append(index)
@@ -22,6 +23,7 @@ def CameraSimples():
     cap = cv2.VideoCapture(CamIndex)
     sucess, img = cap.read()
     ColocaNaTela(img)
+    cap.release()
 
 ptime=0
 ctime=0
@@ -35,7 +37,6 @@ def ColocaNaTela(cv2img):
     ImgTamanho = cv2.resize(cv2img, Tamanho_Imagem) #faz a imagem do tamanho do configurado pela tupla
     ImgTela = cv2.imencode(".png",ImgTamanho)[1].tobytes()
     principal["camera"].update(data=ImgTela)
-    cap.release()
 
 
 HabilitarCamera=True
@@ -48,8 +49,8 @@ Exames=['Camera Simples','Angulo Corporal']
 coluna_esquerda = [[sg.Image(filename="",key="camera")],[sg.Output(20,4)]]
 SelCamera=int()
 ImgSel=str()
-coluna_do_meio = [[],[sg.Text('Camera: '),sg.OptionMenu(cameras,default_value='cam',key=SelCamera)],
-[sg.Text('Selecione O Exame :'), sg.OptionMenu(Exames,default_value='escolha',key=ImgSel)],
+coluna_do_meio = [[],[sg.Text('Camera: '),sg.OptionMenu(cameras,default_value='cam',key='SelCamera')],
+[sg.Text('Selecione O Exame :'), sg.OptionMenu(Exames,default_value='escolha',key='ImgSel')],
 [sg.Button('Iniciar Exame'),sg.Button('Interromper')]]
 
 layout =[coluna_esquerda,coluna_do_meio]
@@ -57,10 +58,9 @@ principal = sg.Window('V5 do TCC',layout).finalize()
 
 while True:
     eventos, valores = principal.read()
-    if eventos == sg.WINDOW_CLOSED:
-        break
+    
     if eventos=='Iniciar Exame' :#AND valores['ImgSel']=='Camera Simples'
-        CamIndex= valores['cam']
+        CamIndex= valores['SelCamera']
         HabilitarCamera = True
         cap = cv2.VideoCapture(CamIndex)
     if eventos == 'Interromper':
@@ -68,4 +68,7 @@ while True:
     if HabilitarCamera==True:
         escolha = valores['ImgSel']
         if escolha == 'Camera Simples':
-            CameraSimples()
+            #CameraSimples()
+            print('Seleção correta')
+    if eventos == sg.WINDOW_CLOSED:
+        break# a ultima comparação de evento é para fechar a janela
