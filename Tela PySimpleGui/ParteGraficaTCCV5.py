@@ -28,6 +28,7 @@ def CameraSimples():
 ptime=0
 ctime=0
 def ColocaNaTela(cv2img):
+    global ptime, ctime
     ctime=time.time()
     fps=1/(ctime-ptime)
     nfps=int(fps)
@@ -40,6 +41,8 @@ def ColocaNaTela(cv2img):
 
 
 HabilitarCamera=True
+global OndeQueria
+OndeQueria=0
 camera_Width=320
 camera_heigth = 240
 Tamanho_Imagem=(camera_Width,camera_heigth)
@@ -60,7 +63,7 @@ while True:
     eventos, valores = principal.read()
     
     if eventos=='Iniciar Exame' :#AND valores['ImgSel']=='Camera Simples'
-        CamIndex= valores['SelCamera']
+        CamIndex= int(valores['SelCamera'])
         HabilitarCamera = True
         cap = cv2.VideoCapture(CamIndex)
     if eventos == 'Interromper':
@@ -68,7 +71,9 @@ while True:
     if HabilitarCamera==True:
         escolha = valores['ImgSel']
         if escolha == 'Camera Simples':
-            #CameraSimples()
+            
+            OndeQueria=1
+            CameraSimples()
             print('Seleção correta')
     if eventos == sg.WINDOW_CLOSED:
         break# a ultima comparação de evento é para fechar a janela
