@@ -18,18 +18,14 @@ def Listar_cameras():
         index+=1
     return lista
        
-def CameraSimples():
-    global CamIndex
-    cap = cv2.VideoCapture(CamIndex)  
+def CameraSimples(cap):
     sucess, img = cap.read()
     ColocaNaTela(img)
     cap.release()
 
 mp_drawing=mp.solutions.drawing_utils
 mp_holistic = mp.solutions.holistic
-def ModeloCorpo():
-    global CamIndex
-    cap = cv2.VideoCapture(CamIndex)
+def ModeloCorpo(cap):
     global mp_drawing, mp_holistic
     with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic:
         sucess, imagemBGR = cap.read()
@@ -53,7 +49,7 @@ def ColocaNaTela(cv2img):
     principal["camera"].update(data=ImgTela)
 
 
-HabilitarCamera=True
+HabilitarCamera=False
 camera_Width=320
 camera_heigth = 240
 Tamanho_Imagem=(camera_Width,camera_heigth)
@@ -74,18 +70,19 @@ while True:
     eventos, valores = principal.read()
     # atualiza a janela de acordo com o que já foi requisitado
     CamIndex= int(valores['SelCamera'])
-    if HabilitarCamera:
+    cap = cv2.VideoCapture(0)
+    while HabilitarCamera:
         escolha = valores['ImgSel']
         if escolha == 'Camera Simples':
-            CameraSimples()
+            CameraSimples(cap)
         if escolha =='Angulo Corporal':
-            ModeloCorpo()
+            ModeloCorpo(cap)
     #gerencia comandos do usuario
     if eventos=='Iniciar Exame' :#AND valores['ImgSel']=='Camera Simples'
-        CamIndex= int(valores['SelCamera'])
+        
         HabilitarCamera = True
-        cap = cv2.VideoCapture(CamIndex)
-    if eventos == 'Interromper':
-        HabilitarCamera=False
+        
+    #if eventos == 'Interromper':
+    #    HabilitarCamera=False
     if eventos == sg.WINDOW_CLOSED:
         break# a ultima comparação de evento é para fechar a janela
