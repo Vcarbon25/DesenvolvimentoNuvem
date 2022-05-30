@@ -38,11 +38,11 @@ while True:                     # The PSG “Event Loop”
         sucess, frame = cap.read()
         imagemRGB = cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
         results = holistic.process(imagemRGB)#obtem os resultados do mediapipe
-        imagemBGR = cv2.cvtColor(imagemRGB,cv2.COLOR_RGB2BGR) #se ficar muito lento delete essa linha e use frame para desenhar
-        mp_drawing.draw_landmarks(imagemBGR,results.pose_landmarks,mp_holistic.POSE_CONNECTIONS,mp_drawing.DrawingSpec(color=(100,255,100),thickness=4,circle_radius=6),mp_drawing.DrawingSpec(color=(100,100,255),thickness=3,circle_radius=5))
+        #imagemBGR = cv2.cvtColor(imagemRGB,cv2.COLOR_RGB2BGR) #se ficar muito lento delete essa linha e use frame para desenhar
+        mp_drawing.draw_landmarks(frame,results.pose_landmarks,mp_holistic.POSE_CONNECTIONS,mp_drawing.DrawingSpec(color=(100,255,100),thickness=4,circle_radius=6),mp_drawing.DrawingSpec(color=(100,100,255),thickness=3,circle_radius=5))
 
 
 
-        janela['camera'].Update(data=cv2.imencode('.png', imagemBGR)[1].tobytes()) # Update image in window
+        janela['camera'].Update(data=cv2.imencode('.png', frame)[1].tobytes()) # Update image in window
     if event==sg.WINDOW_CLOSED:
         break
