@@ -14,8 +14,9 @@ cv2.destroyAllWindows()     #fecha a janela de display
 import tkinter as TK
 from PIL import Image, ImageTk
 import cv2
+import PySimpleGUI as sg
 
-# Create an instance of TKinter Window or frame
+'''# Create an instance of TKinter Window or frame
 win = TK.Tk()
 
 # Set the size of the window
@@ -43,4 +44,18 @@ def show_frames():
 
 show_frames()
 win.mainloop()
-#essa acima é umajanela simples mostrando apenas um label com a imagem
+#essa acima é umajanela simples mostrando apenas um label com a imagem'''
+
+#agora abaixo tem a mesma visualização simples da câmera em uma janela do PySimpleGui
+
+window = sg.Window('Demo Application - OpenCV Integration', [[sg.Image(filename='', key='image')],], location=(800,400))
+
+cap = cv2.VideoCapture(0)       # Setup the camera as a capture device
+
+while True:                     # The PSG “Event Loop”
+
+    event, values = window.Read(timeout=20, timeout_key='timeout')      # get events for the window with 20ms max wait
+
+    if event is None:  break                                            # if user closed window, quit
+
+    window.FindElement('image').Update(data=cv2.imencode('.png', cap.read()[1])[1].tobytes()) # Update image in window
