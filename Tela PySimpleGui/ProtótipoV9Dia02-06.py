@@ -42,10 +42,10 @@ while True:                     # The PSG “Event Loop”
         sucess, frame = cap.read()
         imagemRGB = cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
         results = holistic.process(imagemRGB)#obtem os resultados do mediapipe
-        punho = results.pose_landmarks.landmark[15]
-        cotovelo = results.pose_landmarks.landmark[13]
-        ombro = results.pose_landmarks.landmark[11]
-        Geometria_Analitica(results.pose_landmarks.landmark[11],results.pose_landmarks.landmark[13],results.pose_landmarks.landmark[15])
+        try:
+            Geometria_Analitica(results.pose_landmarks.landmark[11],results.pose_landmarks.landmark[13],results.pose_landmarks.landmark[15])
+        except:
+            pass
         #imagemBGR = cv2.cvtColor(imagemRGB,cv2.COLOR_RGB2BGR) #se ficar muito lento delete essa linha e use frame para desenhar
         mp_drawing.draw_landmarks(frame,results.pose_landmarks,mp_holistic.POSE_CONNECTIONS,mp_drawing.DrawingSpec(color=(100,255,100),thickness=4,circle_radius=6),mp_drawing.DrawingSpec(color=(100,100,255),thickness=3,circle_radius=5))
 
