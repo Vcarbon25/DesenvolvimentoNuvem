@@ -23,8 +23,11 @@ def Geometria_Analitica(ombro, cotovelo,punho):
     Cord_ombro=[ombro.x,ombro.y,ombro.z]
     Cord_cotovelo = [cotovelo.x,cotovelo.y,cotovelo.z]
     Cord_punho = [punho.x,punho.y,punho.z]
-    Shouder_wrist = math.dist(Cord_ombro,Cord_punho)
-    Shoulder_Elbow = math.dist(Cord_ombro,Cord_cotovelo)
+    Shouder_wrist = math.sqrt((Cord_ombro[0]-Cord_punho[0])^2+(Cord_ombro[1]-Cord_punho[1])^2+(Cord_ombro[2]-Cord_punho[2])^2)
+    Shoulder_Elbow = math.sqrt((Cord_ombro[0]-Cord_cotovelo[0])^2+(Cord_ombro[1]-Cord_cotovelo[1])^2+(Cord_ombro[2]-Cord_cotovelo[2])^2)
+    #Shouder_wrist = math.dist(Cord_ombro,Cord_punho)
+    #Shoulder_Elbow = math.dist(Cord_ombro,Cord_cotovelo)
+    
     print('distancia ombro-cotovelo: ',Shoulder_Elbow)
     print('Distancia ombro_punho: ',Shouder_wrist)
 #    if Shoulder_Elbow <Shouder_wrist:
@@ -43,7 +46,7 @@ linha2 = [sg.Text('Camera: '),sg.OptionMenu(cameras,default_value=' Cam ',key='C
 linha3=[sg.Text('Exibir: '),sg.OptionMenu(Exames,default_value='Tipo',key='ImgSel'),sg.Button('Interromper')]
 linha4=[sg.Text('Resultados: '),sg.Output(size=(40,4))]
 layout=[linha1,linha2,linha3,linha4]
-janela=sg.Window('V8DoTCC Mediapipe ',layout).finalize()
+janela=sg.Window('V10DoTCC Mediapipe ',layout).finalize()
 
 
 cap = cv2.VideoCapture(0)       # Setup the camera as a capture device
