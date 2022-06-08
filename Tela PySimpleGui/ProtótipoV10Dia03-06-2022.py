@@ -30,12 +30,12 @@ def Geometria_Analitica(ombro, cotovelo,punho):
     
     print('distancia ombro-cotovelo: ',Shoulder_Elbow)
     print('Distancia ombro_punho: ',Shouder_wrist)
-#    if Shoulder_Elbow <Shouder_wrist:
-#        print('Angulo de abertura maior que 90°')
-#    elif Shoulder_Elbow>Shouder_wrist:
-#        print('Angulo de abertura menor que 90°')
-#    else:
-#        print('Caiu no Limbo')
+    if Shoulder_Elbow <Shouder_wrist:
+        print('Angulo de abertura maior que 90°')
+    elif Shoulder_Elbow>Shouder_wrist:
+        print('Angulo de abertura menor que 90°')
+    else:
+        print('Caiu no Limbo')
 
 #definir a tela
 cameras=Listar_cameras()
