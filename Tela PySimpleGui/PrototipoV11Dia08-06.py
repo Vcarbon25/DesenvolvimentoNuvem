@@ -3,6 +3,7 @@ import PySimpleGUI as sg
 import mediapipe as mp
 import math
 import numpy as np
+import time
 
 RelacaoCalibrada = 0
 
@@ -19,9 +20,10 @@ def Geometria_Analitica(comp ,ombro, cotovelo,punho):
     RelacaoAtual = DistAtual/comp
     print(RelacaoAtual)
     global RelacaoCalibrada
-    if RelacaoAtual>0.4*RelacaoCalibrada:
-        if RelacaoAtual<1.4*RelacaoCalibrada:
+    if RelacaoAtual>0.9*RelacaoCalibrada:
+        if RelacaoAtual<1.1*RelacaoCalibrada:
             print ("medida válida")
+            
         else:
             print("Refazer Calibração")
     else:
@@ -53,6 +55,8 @@ janela=sg.Window('V11DoTCC Mediapipe simplificado',layout).finalize()
 cap = cv2.VideoCapture(0)       # Setup the camera as a capture device
 mp_drawing = mp.solutions.drawing_utils
 mp_holistic=mp.solutions.holistic
+ptime=0
+ctime=0
 while True:                     # The PSG “Event Loop”
 
     event, values = janela.Read(timeout=20, timeout_key='timeout')      # get events for the window with 20ms max wait
@@ -62,6 +66,12 @@ while True:                     # The PSG “Event Loop”
         results = holistic.process(imagemRGB)#obtem os resultados do mediapipe
         #imagemBGR = cv2.cvtColor(imagemRGB,cv2.COLOR_RGB2BGR) #se ficar muito lento delete essa linha e use frame para desenhar
         mp_drawing.draw_landmarks(frame,results.pose_landmarks,mp_holistic.POSE_CONNECTIONS,mp_drawing.DrawingSpec(color=(100,255,100),thickness=4,circle_radius=6),mp_drawing.DrawingSpec(color=(100,100,255),thickness=3,circle_radius=5))
+        ctime=time.time()
+        fps=1/(ctime-ptime)
+        ptime=ctime
+        nfps=int(fps)
+        txtfps=str(nfps)
+        cv2.putText(frame,txtfps,(10,50),cv2.FONT_HERSHEY_COMPLEX,2,(255,50,150),3)
         janela['camera'].Update(data=cv2.imencode('.png', frame)[1].tobytes()) # Update image in window
     if event == 'Calibrar Sistema':
         try:
