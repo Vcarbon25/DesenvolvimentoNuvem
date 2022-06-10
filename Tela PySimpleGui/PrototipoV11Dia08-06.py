@@ -47,7 +47,7 @@ def Calibracao(comp, ombro, cotovelo):
 linha1 = [[sg.Image(filename="",key="camera")]]
 linha2 = [sg.Button('Calibrar Sistema'), sg.Button('Realizar Medida')]
 linha3=[sg.Text("comp ombro-cotovelo esquerdo"),sg.Input(key='comprimento',size=(6,1)),  sg.Text('Verificação de Angulos corporais ')]
-linha4=[sg.Text('Resultados: '),sg.Output(size=(40,4))]
+linha4=[sg.Text('Resultados: '),sg.Output(size=(40,6))]
 layout=[linha1,linha2,linha3,linha4]
 janela=sg.Window('V11DoTCC Mediapipe simplificado',layout).finalize()
 
@@ -73,6 +73,7 @@ while True:                     # The PSG “Event Loop”
         txtfps=str(nfps)
         cv2.putText(frame,txtfps,(10,50),cv2.FONT_HERSHEY_COMPLEX,2,(255,50,150),3)
         janela['camera'].Update(data=cv2.imencode('.png', frame)[1].tobytes()) # Update image in window
+        print(results.pose_landmarks.landmark[15])#vai imprimir constantemente a posução da mão esquerda para saber os valores da tela tirar depois
     if event == 'Calibrar Sistema':
         try:
             compinformado = float(values['comprimento'])
