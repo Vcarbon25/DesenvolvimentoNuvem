@@ -23,7 +23,16 @@ def Geometria_Analitica(comp ,ombro, cotovelo,punho):
     if RelacaoAtual>0.9*RelacaoCalibrada:
         if RelacaoAtual<1.1*RelacaoCalibrada:
             print ("medida válida")
-            
+            #vetor ombro->cotovelo = cotovelo -ombro
+            VOC = np.add(ArCot,MOmbro)
+            #vetor ombro->punho = punho-ombro
+            VOP = np.add(ArPunho,MOmbro)
+            ROP=np.multiply(VOP,VOP) #raiz ombro punho, o array agora é os elementos da soma
+            ROC = np.multiply(VOC,VOC) #raiz ombro cotovelo array elementos da soma 
+            DOC = np.sqrt(ROC.sum()) #distancia ombro cotovelo
+            DOP = np.sqrt(ROP.sum()) #dist ombro punho
+            print('Ombro cotovelo: ',DOC)
+            print('Ombro-punho: ',DOP)
         else:
             print("Refazer Calibração")
     else:
@@ -73,7 +82,7 @@ while True:                     # The PSG “Event Loop”
         txtfps=str(nfps)
         cv2.putText(frame,txtfps,(10,50),cv2.FONT_HERSHEY_COMPLEX,2,(255,50,150),3)
         janela['camera'].Update(data=cv2.imencode('.png', frame)[1].tobytes()) # Update image in window
-        print(results.pose_landmarks.landmark[15])#vai imprimir constantemente a posução da mão esquerda para saber os valores da tela tirar depois
+        #print(results.pose_landmarks.landmark[15])#vai imprimir constantemente a posução da mão esquerda para saber os valores da tela tirar depois
     if event == 'Calibrar Sistema':
         try:
             compinformado = float(values['comprimento'])
@@ -88,3 +97,4 @@ while True:                     # The PSG “Event Loop”
     if event==sg.WINDOW_CLOSED:
         cap.release()
         break
+    
