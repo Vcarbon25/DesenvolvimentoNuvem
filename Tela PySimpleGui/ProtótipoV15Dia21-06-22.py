@@ -54,8 +54,8 @@ def Calibracao(comp, ombro, cotovelo):
 
 def SalvaHist(Listinfo):
     arquivo = filedialog.asksaveasfile(initialdir="Documents",title="Salvar Medidas",defaultextension=".csv")
-    line=0
-    arquivo.writelines(Listinfo)
+    for iteracao in Listinfo:
+        arquivo.write('%s\n' % iteracao)
     arquivo.close()
 
 #definir a tela
