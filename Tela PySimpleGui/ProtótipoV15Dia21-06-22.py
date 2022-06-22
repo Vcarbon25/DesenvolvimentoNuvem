@@ -1,10 +1,9 @@
-from ast import Pass
 import cv2
 import PySimpleGUI as sg
 import mediapipe as mp
 import numpy as np
 import time
-from datetime import date
+from tkinter import filedialog
 
 RelacaoCalibrada = 0
 
@@ -35,25 +34,11 @@ def Geometria_Analitica(comp ,ombro, cotovelo,punho):
             DOP = np.sqrt(ROP.sum()) #dist ombro punho
             print('Ombro cotovelo: ',DOC)
             print('Ombro-punho: ',DOP)
-            salvar(VOC,VOP)
         else:
             print("Refazer Calibração")
     else:
         print('Refazer Calibração')
-salvou=0
-def salvar(Vomcot,Vompu, Pombro, Pcotovelo, Ppunho):
-    global salvou
-    salvou +=salvou
-    #end = "C:\Users\SAMSUNG\Documents\Faculdade\TCC Federal\MedidasRealizadas"
-    arquivo = open("Medidas.txt","a")
-    txtsalvou=str(salvou)
-    txtVOC = str(Vomcot)
-    txtVOP=str(Vompu)
-    parte1 = "leitura N"+txtsalvou+"ponto ombro: "+Pombro+" Cotovelo "+Pcotovelo+" Punho "+Ppunho
-    parte2 = " VOC: "+txtVOC+" VOP: "+txtVOP+"\n"
-    texto = parte1+parte2
-    arquivo.write(texto)
-    arquivo.close()
+
 
 def Calibracao(comp, ombro, cotovelo):
     print("rotina de calibração")
@@ -67,8 +52,12 @@ def Calibracao(comp, ombro, cotovelo):
     RelacaoCalibrada = DistTela/comp
     print("Relação Calibrada: ",RelacaoCalibrada)
 
-def Salvamento(Listinfo):
-    pass
+def SalvaHist(Listinfo):
+    arquivo = filedialog.asksaveasfile(initialdir="Documents",title="Salvar Medidas",defaultextension=".csv")
+    line=0
+    arquivo.writelines(Listinfo)
+    arquivo.close()
+
 #definir a tela
 
 linha1 = [[sg.Image(filename="",key="camera")]]
@@ -111,7 +100,7 @@ while True:                     # The PSG “Event Loop”
             #print(Novo_dado)
             
             Historico_dados.append(Novo_dado)
-            print(Historico_dados)
+            #print(Historico_dados)
         except:
             pass
        
@@ -127,7 +116,7 @@ while True:                     # The PSG “Event Loop”
         except:
             pass
     if event == "Salvar CSV":
-        Salvamento(Historico_dados)
+        SalvaHist(Historico_dados)
     if event==sg.WINDOW_CLOSED:
         cap.release()
         break
