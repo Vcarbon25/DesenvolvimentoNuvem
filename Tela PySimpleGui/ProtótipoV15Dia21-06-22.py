@@ -54,6 +54,7 @@ def Calibracao(comp, ombro, cotovelo):
 
 def SalvaHist(Listinfo):
     arquivo = filedialog.asksaveasfile(initialdir="Documents",title="Salvar Medidas",defaultextension=".csv")
+    arquivo.write("OmbroX,OmbroY, OmbroZ, CotoveloX, CotoveloY, CotoveloZ, PunhoX, PunhoY, PunhoZ\n") #1 linha é o cabeçalho
     for iteracao in Listinfo:
         arquivo.write('%s\n' % iteracao)
     arquivo.close()
@@ -93,10 +94,10 @@ while True:                     # The PSG “Event Loop”
         cv2.putText(frame,txtfps,(10,50),cv2.FONT_HERSHEY_COMPLEX,2,(255,50,150),3)
         janela['camera'].Update(data=cv2.imencode('.png', frame)[1].tobytes()) # Update image in window
         try:
-            cord_omb=[results.pose_landmarks.landmark[11].x,results.pose_landmarks.landmark[11].y,results.pose_landmarks.landmark[11].z]
-            cord_cot=[results.pose_landmarks.landmark[13].x,results.pose_landmarks.landmark[13].y,results.pose_landmarks.landmark[13].z]
-            cord_pun=[results.pose_landmarks.landmark[15].x,results.pose_landmarks.landmark[15].y,results.pose_landmarks.landmark[15].z]
-            Novo_dado=str(cord_omb)+","+str(cord_cot)+","+str(cord_pun)
+            cord_omb=str(results.pose_landmarks.landmark[11].x)+","+str(results.pose_landmarks.landmark[11].y)+","+str(results.pose_landmarks.landmark[11].z)+","
+            cord_cot=str(results.pose_landmarks.landmark[13].x)+","+str(results.pose_landmarks.landmark[13].y)+","+str(results.pose_landmarks.landmark[13].z)+","
+            cord_pun=str(results.pose_landmarks.landmark[15].x)+","+str(results.pose_landmarks.landmark[15].y)+","+str(results.pose_landmarks.landmark[15].z)
+            Novo_dado=cord_omb+cord_cot+cord_pun
             #print(Novo_dado)
             
             Historico_dados.append(Novo_dado)
